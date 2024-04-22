@@ -12,6 +12,8 @@ import {
 
 import * as actions from "@/actions";
 
+import FormButton from "@/components/common/form-button";
+
 export default function TopicCreateForm() {
   const [formState, action] = useFormState(actions.createTopic, {
     errors: {},
@@ -49,7 +51,7 @@ export default function TopicCreateForm() {
               </div>
             ) : null}
 
-            <Button type="submit">Submit</Button>
+            <FormButton>Save</FormButton>
           </div>
         </form>
       </PopoverContent>
