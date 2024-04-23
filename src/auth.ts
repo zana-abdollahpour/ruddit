@@ -23,4 +23,11 @@ export const {
       clientSecret: GITHUB_CLIENT_SECRET,
     }),
   ],
+  // WARN: added beacuse of a bug in NextAuth
+  callbacks: {
+    async session({ session, user }: any) {
+      if (session && user) session.user.id = user.id;
+      return session;
+    },
+  },
 });
