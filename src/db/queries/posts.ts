@@ -1,6 +1,5 @@
-import type { Post } from "@prisma/client";
+// import type { Post } from "@prisma/client";
 import { db } from "@/db";
-import { Return } from "@prisma/client/runtime/library";
 
 // export type PostWithDetails = Post & {
 //   topic: { slug: string };
@@ -8,6 +7,21 @@ import { Return } from "@prisma/client/runtime/library";
 //   _count: { comments: number };
 // };
 // // Promise<PostWithDetails[]> // use for return of fn, if above type is used
+
+export function fetchPostBySearchterm(
+  term: string,
+): Promise<PostWithDetails[]> {
+  return db.post.findMany({
+    where: {
+      OR: [{ title: { contains: term } }, { content: { contains: term } }],
+    },
+    include: {
+      topic: { select: { slug: true } },
+      user: { select: { name: true, image: true } },
+      _count: { select: { comments: true } },
+    },
+  });
+}
 
 export type PostWithDetails = Awaited<
   ReturnType<typeof fetchPostByTopicSlug>
